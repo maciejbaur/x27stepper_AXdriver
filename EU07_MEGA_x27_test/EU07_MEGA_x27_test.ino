@@ -86,6 +86,7 @@ void loop() {
   // Funkcja obslugujaca radiotelefon
   //radio();      // Nieuzywana - Wszystko jest w funkcjach zapis_doNANO() i odczyt_zNANO()
   zapis_doNANO();
+  komunikacja_z_NANO();  // Funkcja obslugujaca komunikacje z NANO poprzez UART
   odczyt_zNANO();
 
   // Funkcja do obslugi wyswietlacza LCD i/lub monitora portu szeregowego do testow i debugingu
@@ -100,7 +101,6 @@ void loop() {
   if (Serial.available()) {
     komunikacja_z_exe();  // Funkcja obslugujaca komunikacje z PC poprzez UART
   }
-  //komunikacja_z_NANO();  // Funkcja obslugujaca komunikacje z NANO poprzez UART
 
 } // KONIEC LOOP'a
 
@@ -117,9 +117,9 @@ void komunikacja_z_exe() {
 
 void komunikacja_z_NANO() {
   // Wysylanie i odbieranie danych doNANO/zNANO poprzez komunikacje szeregowa COM2
-  if (Serial2.available()) {
+  //if (Serial2.available()) {
     Serial2.readBytes((char*)zNANO, zNANO_byteLength);
-  }
+  //}
   Serial2.write((byte*)doNANO, doNANO_byteLength);
 }
 
