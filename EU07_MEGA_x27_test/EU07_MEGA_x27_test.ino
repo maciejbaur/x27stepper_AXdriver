@@ -175,7 +175,7 @@ void odczyt_stanu_pinow()  {
   //zPC_LCurrent = zPC[xx];                   // Amperomierz niskiego napiecia (nie obslugiwane w exe)
 
   zPC_RadioChannel = zPC[37];                 // Kanal radiowy
-  //zPC_RadioStop = !bitRead(zPC[10], 5);       // RadioStop (nieoprogramowany)
+  zPC_RadioStop = bitRead(zPC[10], 5);       // RadioStop
 }
 
 void zapis_stanu_pinow()  {
@@ -245,6 +245,7 @@ void zapis_stanu_pinow()  {
 void zapis_doNANO()  {
   // Przypisanie zmiennych do bitow ramki doNANO
   doNANO[0] = zPC[37];               // Kanal radiowy
+  bitWrite(doNANO[1], 0, zPC_RadioStop);                // Sygnal RadioStop jest nadawany
 }
 
 void odczyt_zNANO()  {

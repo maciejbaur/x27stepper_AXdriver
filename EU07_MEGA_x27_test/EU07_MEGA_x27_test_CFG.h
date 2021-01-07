@@ -1,4 +1,5 @@
 // Definicje expanderow, stalych i zmiennych dla programu z pliku "EU07_sterowanie_COM_MEGA_v2.ino"
+
 /*  // ekspandery 0-6 interfejsu I2CIN - interfejsu nastawników
     PCF8574 exp0;
     PCF8574 exp1;
@@ -280,7 +281,7 @@
     //byte zPC_LCurrent = 0;      // Amperomierz niskiego napiecia (nieobslugiwane w exe)
 
     byte zPC_RadioChannel = 0;     // Kanal radiowy
-    //bool zPC_RadioStop = false;     // RadioStop (nieoprogramowany)
+    bool zPC_RadioStop = false;     // RadioStop
 
   // Zmienne dla bitow z ramki doPC
     byte doPC_MasterController = 0;                       // Pozycja nastawnika jazdy
