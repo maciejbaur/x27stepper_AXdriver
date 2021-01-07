@@ -63,7 +63,7 @@ void loop() {
     // Funkcja obslugujaca manometry
     manometry();
   */
-  manometry_x25();
+  //manometry_x25();
 
   // Funkcja obslugujaca nastawnik kierunkowy przez I2CIN
   /*nastawnik_kierunkowy();
@@ -85,8 +85,8 @@ void loop() {
   */
   // Funkcja obslugujaca radiotelefon
   //radio();      // Nieuzywana - Wszystko jest w funkcjach zapis_doNANO() i odczyt_zNANO()
-  //zapis_doNANO();
-  //odczyt_zNANO();
+  zapis_doNANO();
+  odczyt_zNANO();
 
   // Funkcja do obslugi wyswietlacza LCD i/lub monitora portu szeregowego do testow i debugingu
   //debug_monitor();
