@@ -4,22 +4,29 @@
 
 // BIBLIOTEKI
 //#include "PCF8574.h"               // https://drive.google.com/file/d/0B8JV5ebfS8ttU0pTUTJnUVpYOHM/view
-#include <Wire.h>                  // komunikacja po I2C z ekspanderami
+#include <Wire.h>                    // komunikacja po I2C z ekspanderami
 #include "EU07_MEGA_x27_test_CFG.h"  // Pliik konfiguracyjny - definicje expanderow, stalych i zmiennych
 
 void setup() {
   // Obsługa komunikacji szeregowej
   Serial.begin(115200);   // 115200b/s dla PC
-  //Serial1.begin(9600);    // 9600b/s dla falownika RX1/TX1)
-  //Serial2.begin(9600);    // 9600b/s dla NANO slave1 RX2/TX2)
   Serial.setTimeout(10);
   while (!Serial) {};
 
-  // LCD do testów
-  //lcd.begin(16, 2);  // Inicjalizacja LCD 2x16
+// Ustawienia w bibliotece SwitecX12.cpp
+//
+//  static unsigned short defaultAccelTable[][2] = {
+//    {   20, 8000},
+//    {   50, 5000},
+//    {  100, 3000},
+//    {  150, 1500},
+//    {  300, 1000}
+//  };
+//
+//  const int resetStepMicrosec = 2000;  // default 300
 
   // wymuszenie powrotu wskazowek manometrow do pozycji zerowej (docelowo po przycisnieciu jakiegos przycisku, zeby nie robil tego niepotrzebnie przy kazdym resecie)
-  //zerowanie_manometrow();
+  zerowanie_manometrow();
   
   // run the motor against the stops
   motor1.zero();
@@ -39,59 +46,9 @@ void loop() {
 
   // --- OBSLUGA URZĄDZEN --- //
 
-  // Funkcja obslugujaca predkosciomierz Hasler RT-9
-  /*hasler();
-
-    // Funkcja obslugujaca ledy kontrolne na plytkach interfejsow I2C
-    ledy_kontrolne();
-
-    // Funkcja obslugujaca kontrolki przez I2CILK
-    lampki_kontrolne();
-
-    // Funkcja obslugujaca rysiki Haslera
-    hasler_rysiki();
-
-    // Funkcja obslugujaca zewnetrzny buczek przez I2CIPD
-    buczek();
-
-    // Funkcja obslugujaca mierniki elektryczne WN
-    mierniki_WN();
-
-    // Funkcja obslugujaca mierniki NN
-    mierniki_NN();
-
     // Funkcja obslugujaca manometry
-    manometry();
-  */
-  manometry_x25();
-
-  // Funkcja obslugujaca nastawnik kierunkowy przez I2CIN
-  /*nastawnik_kierunkowy();
-
-    // Funkcja obslugujaca nastawnik jazdy przez I2CIN
-    nastawnik_jazdy();
-
-    // Funkcja obslugujaca nastawnik bocznikowania przez I2CIN
-    nastawnik_bocznikowania();
-
-    // Funkcja obslugujaca krany hamulcowe
-    krany_hamulcowe();
-
-    // Funkcja obslugujaca wszystki przyciski, hebelki i przelaczniki pakietowe odslugiwane bezposrednio i przez I2CIPD
-    przyciski_przelaczniki();
-
-    // Funkcja obslugujaca przyciski i przełączniki przedzialu maszynowego z interfejsu I2CIPM
-    przedzial_maszynowy();
-  */
-  // Funkcja obslugujaca radiotelefon
-  //radio();      // Nieuzywana - Wszystko jest w funkcjach zapis_doNANO() i odczyt_zNANO()
-  //zapis_doNANO();
-  //komunikacja_z_NANO();  // Funkcja obslugujaca komunikacje z NANO poprzez UART
-  //odczyt_zNANO();
-
-  // Funkcja do obslugi wyswietlacza LCD i/lub monitora portu szeregowego do testow i debugingu
-  //debug_monitor();
-
+    //manometry();
+    manometry_x25();
 
   // --- ZAPIS STANU PINOW --- //
   // Funkcja zapisujaca stan pinow ze zmiennych i wpisujaca je do bitow ramki doPC
@@ -115,13 +72,6 @@ void komunikacja_z_exe() {
   Serial.write((char*)doPC, doPC_byteLength);
 }
 
-void komunikacja_z_NANO() {
-  // Wysylanie i odbieranie danych doNANO/zNANO poprzez komunikacje szeregowa COM2
-  //if (Serial2.available()) {
-    Serial2.readBytes((char*)zNANO, zNANO_byteLength);
-  //}
-  Serial2.write((byte*)doNANO, doNANO_byteLength);
-}
 
 void odczyt_stanu_pinow()  {
   // Przypisanie danych z bitow ramki zPC do zmiennych
@@ -242,24 +192,6 @@ void zapis_stanu_pinow()  {
   doPC[14] = doPC_IndependentBrake;                              // Pozycja kranu hamulca pomocniczego
 }
 
-void zapis_doNANO()  {
-  // Przypisanie zmiennych do bitow ramki doNANO
-  doNANO[0] = zPC[37];               // Kanal radiowy
-  bitWrite(doNANO[1], 0, zPC_RadioStop);                // Sygnal RadioStop jest nadawany
-}
-
-void odczyt_zNANO()  {
-  // Przypisanie wartosci bitow ramki zNANO do zmiennych
-
-  doPC_RadioToggle = bitRead(zNANO[0], 0);              // przycisk zalaczania radiotelefonu
-  doPC_RadioChannelIncrease = bitRead(zNANO[0], 1);     // wyzszy kanal
-  doPC_RadioChannelDecrease = bitRead(zNANO[0], 2);     // nizszy kanal
-  doPC_RadioStopSend = bitRead(zNANO[0], 3);            // przycisk RadioStop
-  doPC_RadioStopTest = bitRead(zNANO[0], 4);            // przycisk RadioStop Test
-  doPC_RadioCall3Send = bitRead(zNANO[0], 5);           // przycisk wywolania ZEW3
-  doPC_RadioVolumeIncrease = bitRead(zNANO[0], 6);      // przycisk zwiekszenia glosnosci
-  doPC_RadioVolumeDecrease = bitRead(zNANO[0], 7);      // przycisk zmniejszenia glosnosci
-}
 
 void manometry()  {
   /*
@@ -307,31 +239,4 @@ void zerowanie_manometrow() {
     motor2.update();
     motor3.update();
   }
-}
-
-void debug_monitor()  {
-  // Wyświetlacz LCD do testów
-  // Sprawdzić czy inicjalizacja LCD na poczatku i w setupie jest aktywna
-
-  //lcd.clear();
-
-  lcd.setCursor(0, 0); // Ustawienie kursora w pozycji 0,0 (pierwszy wiersz, pierwsza kolumna)
-  lcd.print("P: ");
-  lcd.print(BrakePress);
-  lcd.print("     ");
-
-  lcd.setCursor(0, 1); // Ustawienie kursora w pozycji 0,1 (drugi wiersz, pierwsza kolumna)
-  lcd.print("M: ");
-  lcd.print(map(BrakePress, 0, 1023, 0, 944));
-  lcd.print("     ");
-
-  // Monitor szeregowy do testow
-  // wylaczyc do pracy z symulatorem
-
-  //Serial.print("B:");
-  //Serial.print(B_exp6, BIN);
-  //Serial.print(" B:");
-  //Serial.print(B_exp6, HEX);
-  //Serial.print(" B:");
-  //Serial.println(doPC_SecondController);
 }
