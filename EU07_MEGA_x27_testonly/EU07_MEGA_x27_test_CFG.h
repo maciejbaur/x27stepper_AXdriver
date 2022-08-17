@@ -31,7 +31,6 @@
 
   // Obsluga silnikow krokowych x25
 #include <SwitecX12.h>
-//#include <SwitecX25.h>
 
     
   // standard X25.168 range 315 degrees at 1/3 degree steps
@@ -59,6 +58,9 @@
 
   // Definicja stalych dla pinow wejscia / wyjscia
 
+    const byte pinZero = 46; // do uruchomienia zerowania manometrow
+    const byte pinTest = 45; // do uruchomienia testu manometrow
+    
     //Plytka rozszerzen ACB (Arduino Connection Board)
     const byte pinMCH = 2;                      // ACB J8 - manometr cylindra hamulcowego
     const byte pinMPG = 3;                      // ACB J9 - manometr przewodu glownego

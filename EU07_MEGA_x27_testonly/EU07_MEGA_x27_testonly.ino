@@ -16,24 +16,28 @@ void setup() {
 // Ustawienia w bibliotece SwitecX12.cpp
 //
 //  static unsigned short defaultAccelTable[][2] = {
-//    {   20, 8000},
-//    {   50, 5000},
-//    {  100, 3000},
-//    {  150, 1500},
-//    {  300, 1000}
+//  {   10, 10000},
+//  {   50,  7000},
+//  {  150,  3000},
+//  {  300,  1500},
+//  {  500,   900}
 //  };
 //
-//  const int resetStepMicrosec = 2000;  // default 300
+//  const int resetStepMicrosec = 900;  // default 300
 
   // wymuszenie powrotu wskazowek manometrow do pozycji zerowej (docelowo po przycisnieciu jakiegos przycisku, zeby nie robil tego niepotrzebnie przy kazdym resecie)
-  zerowanie_manometrow();
+  //zerowanie_manometrow();
   
   // run the motor against the stops
-  motor1.zero();
-  motor2.zero();
-  motor3.zero();
+//  motor1.zero();
+//  motor2.zero();
+//  motor3.zero();
 
   digitalWrite(RESET, HIGH);
+
+  pinMode(pinZero,INPUT_PULLUP);
+  pinMode(pinTest,INPUT_PULLUP);
+  
 } // KONIEC SETUP'a
 
 
@@ -49,6 +53,12 @@ void loop() {
     // Funkcja obslugujaca manometry
     //manometry();
     manometry_x25();
+    while (digitalRead(pinZero) == LOW) {
+      zerowanie_manometrow();
+    }
+    while (digitalRead(pinTest) == LOW) {
+      test_manometrow();
+    }
 
   // --- ZAPIS STANU PINOW --- //
   // Funkcja zapisujaca stan pinow ze zmiennych i wpisujaca je do bitow ramki doPC
@@ -228,15 +238,17 @@ void manometry_x25()  {
 
 void zerowanie_manometrow() {
   // zerowanie wskazan manometrow
-  motor1.currentStep = STEPS;
-  motor2.currentStep = STEPS;
-  motor3.currentStep = STEPS;
-  motor1.setPosition(0);
-  motor2.setPosition(0);
-  motor3.setPosition(0);
-  while (!motor1.stopped || !motor2.stopped || !motor3.stopped) {
+  motor1.zero();
+  motor2.zero();
+  motor3.zero();
+}
+
+void test_manometrow() {
+  // ustawienie maksymalnych wartosci na skalach
+  motor1.setPosition(3126);
     motor1.update();
+  motor2.setPosition(3126);
     motor2.update();
+  motor3.setPosition(3318);
     motor3.update();
-  }
 }
