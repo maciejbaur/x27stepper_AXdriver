@@ -25,14 +25,6 @@ void setup() {
 //
 //  const int resetStepMicrosec = 900;  // default 300
 
-  // wymuszenie powrotu wskazowek manometrow do pozycji zerowej (docelowo po przycisnieciu jakiegos przycisku, zeby nie robil tego niepotrzebnie przy kazdym resecie)
-  //zerowanie_manometrow();
-  
-  // run the motor against the stops
-//  motor1.zero();
-//  motor2.zero();
-//  motor3.zero();
-
   digitalWrite(RESET, HIGH);
 
   pinMode(pinZero,INPUT_PULLUP);
