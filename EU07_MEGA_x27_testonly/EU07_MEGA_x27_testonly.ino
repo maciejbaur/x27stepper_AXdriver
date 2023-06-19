@@ -224,7 +224,7 @@ void manometry_x25()  {
   motor1.update();
   motor2.setPosition(map(PipePress, 0, 1023, 0, 3045));   // <wartosc maksymalna przy pelnym zakresie> * 3780 / 1023
   motor2.update();
-  motor3.setPosition(map(TankPress, 0, 1023, 0, 3260));   // <wartosc maksymalna przy pelnym zakresie> * 3780 / 1023
+  motor3.setPosition(map(TankPress, 0, 1023, 0, 3252));   // <wartosc maksymalna przy pelnym zakresie> * 3780 / 1023
   motor3.update();
 }
 
@@ -241,6 +241,6 @@ void test_manometrow() {
     motor1.update();
   motor2.setPosition(3045);
     motor2.update();
-  motor3.setPosition(3260);
+  motor3.setPosition(3252);
     motor3.update();
 }

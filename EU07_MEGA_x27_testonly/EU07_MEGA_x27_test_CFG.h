@@ -58,8 +58,8 @@
 
   // Definicja stalych dla pinow wejscia / wyjscia
 
-    const byte pinZero = 46; // do uruchomienia zerowania manometrow
-    const byte pinTest = 45; // do uruchomienia testu manometrow
+    const byte pinZero = 3; // do uruchomienia zerowania manometrow
+    const byte pinTest = 2; // do uruchomienia testu manometrow
     
     //Plytka rozszerzen ACB (Arduino Connection Board)
     const byte pinMCH = 2;                      // ACB J8 - manometr cylindra hamulcowego
