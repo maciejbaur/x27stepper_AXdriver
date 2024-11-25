@@ -29,6 +29,8 @@ void setup() {
 
   pinMode(pinZero,INPUT_PULLUP);
   pinMode(pinTest,INPUT_PULLUP);
+
+  zerowanie_manometrow();
   
 } // KONIEC SETUP'a
 
@@ -220,11 +222,11 @@ void manometry()  {
 }
 
 void manometry_x25()  {
-  motor1.setPosition(map(BrakePress, 0, 1023, 0, 3089));  // <wartosc maksymalna przy pelnym zakresie> * 3780 / 1023
+  motor1.setPosition(map(BrakePress, 0, 1023, 0, 1635));  // <wartosc maksymalna przy pelnym zakresie> * 3780 / 1023
   motor1.update();
-  motor2.setPosition(map(PipePress, 0, 1023, 0, 3045));   // <wartosc maksymalna przy pelnym zakresie> * 3780 / 1023
+  motor2.setPosition(map(PipePress, 0, 1023, 0, 1635));   // <wartosc maksymalna przy pelnym zakresie> * 3780 / 1023
   motor2.update();
-  motor3.setPosition(map(TankPress, 0, 1023, 0, 3252));   // <wartosc maksymalna przy pelnym zakresie> * 3780 / 1023
+  motor3.setPosition(map(TankPress, 0, 1023, 0, 1635));   // <wartosc maksymalna przy pelnym zakresie> * 3780 / 1023
   motor3.update();
 }
 
@@ -237,10 +239,10 @@ void zerowanie_manometrow() {
 
 void test_manometrow() {
   // ustawienie maksymalnych wartosci na skalach
-  motor1.setPosition(3089);
+  motor1.setPosition(1635);
     motor1.update();
-  motor2.setPosition(3045);
+  motor2.setPosition(1635);
     motor2.update();
-  motor3.setPosition(3252);
+  motor3.setPosition(1635);
     motor3.update();
 }

@@ -30,14 +30,16 @@
 */
 
   // Obsluga silnikow krokowych x25
-#include <SwitecX12.h>
+  // #include <SwitecX12.h>
+  #include <SwitecX25.h> // nowa biblioteka od @kaczor112
 
     
   // standard X25.168 range 315 degrees at 1/3 degree steps
     //const int STEPS (315*3);
 
   // x27.168 przez AX driver
-    const int STEPS (315*12);
+    // const int STEPS (315*12);
+    const int STEPS (315*6); // bezposrednio z Arduino i zmodyfikowana biblioteka
     const int A_STEP = 4;
     const int A_DIR = 5;
     const int B_STEP = 6;
@@ -46,15 +48,14 @@
     const int C_DIR = 9;
     const int RESET = 10;
     
-    SwitecX12 motor1(STEPS, C_STEP, C_DIR);
-    SwitecX12 motor2(STEPS, B_STEP, B_DIR);
-    SwitecX12 motor3(STEPS, A_STEP, A_DIR);
-
+    //  SwitecX12 motor1(STEPS, C_STEP, C_DIR);
+    //  SwitecX12 motor2(STEPS, B_STEP, B_DIR);
+    //  SwitecX12 motor3(STEPS, A_STEP, A_DIR);
 
   // For motors connected to digital pins 4,5,6,7
-    //SwitecX25 motor1(STEPS,22,23,24,25);
-    //SwitecX25 motor2(STEPS,4,5,6,7);
-    //SwitecX25 motor3(STEPS,8,9,10,11);
+    SwitecX25 motor1(STEPS,22,23,24,25); // brake press
+    SwitecX25 motor2(STEPS,4,5,6,7); // main pipe
+    SwitecX25 motor3(STEPS,8,9,10,11); // main tank
 
   // Definicja stalych dla pinow wejscia / wyjscia
 
